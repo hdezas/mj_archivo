@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videoteca | MJ</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png">
+</head>
+<body class="bg-black text-white font-sans antialiased min-h-screen">
+  
+  <!-- Navegación principal -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo musical</span></a>
+      </h1>
+      <ul class="flex space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="hover:text-yellow-600 transition-colors">Inicio</a></li>
+        <li><a href="eras.html" class="hover:text-yellow-600 transition-colors">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="hover:text-yellow-600 transition-colors">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-yellow-600 transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="text-white border-b border-red-600">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Contenido Principal -->
+  <main class="max-w-4xl mx-auto px-6 py-10">
+    <h2 class="text-xl font-semibold uppercase tracking-wider text-neutral-400 mb-8 border-b border-neutral-800 pb-2">
+      Videos Musicales Disponibles
+    </h2>
+
+    <!-- Lista dinámica de vídeos -->
+    <div id="lista-videos" class="flex flex-col gap-4"></div>
+  </main>
+
+  <footer class="mt-20 border-t border-neutral-800 py-10 text-center text-neutral-600 text-sm">
+    <p>&copy; 2026 Michael Jackson Archivo - Para fines educativos</p>
+  </footer>
+
+  <!-- Scripts JS Client-side -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const videos = obtenerListaVideos();
+      const contenedor = document.getElementById('lista-videos');
+
+      if (!videos || videos.length === 0) {
+        contenedor.innerHTML = '<p class="text-neutral-500 text-center py-8">No se encontraron videos disponibles.</p>';
+        return;
+      }
+
+      contenedor.innerHTML = videos.map(video => `
+        <a href="video_detalle.html?id=${video.IDCancion}" 
+           class="flex justify-between items-center bg-neutral-950 border border-neutral-800 p-5 rounded hover:border-red-600 transition-colors group">
+          <div>
+            <h3 class="text-lg font-bold text-white group-hover:text-red-500 transition-colors">${video.NombreCancion}</h3>
+            <p class="text-xs text-neutral-500 mt-1">ID: ${video.IDCancion}</p>
+          </div>
+          <span class="text-xs font-bold uppercase tracking-widest text-red-500 bg-red-950/30 px-3 py-1.5 border border-red-900/50 rounded group-hover:bg-red-600 group-hover:text-white transition-all">
+            Ver video
+          </span>
+        </a>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Detalle de Canción | MJ</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png">
+</head>
+<body class="bg-black text-white font-sans antialiased min-h-screen">
+  
+  <!-- Navegación Principal -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo musical</span></a>
+      </h1>
+      <ul class="flex space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="hover:text-yellow-600 transition-colors">Inicio</a></li>
+        <li><a href="eras.html" class="hover:text-yellow-600 transition-colors">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="hover:text-yellow-600 transition-colors">Álbumes</a></li>
+        <li><a href="canciones.html" class="text-white border-b border-red-600">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-yellow-600 transition-colors">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main id="main-content" class="max-w-4xl mx-auto px-6 py-12">
+    <div id="contenidoCancion">
+      <!-- Aquí se inyecta el detalle dinámicamente -->
+    </div>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="mt-20 border-t border-neutral-800 py-10 text-center text-neutral-600 text-sm">
+    <p>&copy; 2026 Michael Jackson Archivo - Para fines educativos</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+
+  <script>
+    function getParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function renderError(mensaje) {
+      document.getElementById('contenidoCancion').innerHTML = `
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-8 text-center mt-10">
+          <h1 class="text-3xl font-bold text-red-500 mb-4">Error: Canción no encontrada</h1>
+          <p class="text-gray-400 mb-6">${escapeHtml(mensaje)}</p>
+          <a href="canciones.html" class="inline-block bg-red-600 text-white px-6 py-2.5 rounded font-bold text-xs uppercase tracking-wider hover:bg-red-500 transition-colors">
+            ← Volver al Catálogo
+          </a>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const idCancion = getParam('id') || getParam('id_cancion');
+      if (!idCancion) {
+        renderError('No se especificó un identificador de canción.');
+        return;
+      }
+
+      if (typeof DB === 'undefined') {
+        renderError('No se pudieron cargar los datos de la base de datos.');
+        return;
+      }
+
+      const detalle = obtenerDetalleVideo(idCancion);
+      
+      if (!detalle) {
+        renderError('La canción solicitada no existe en la base de datos.');
+        return;
+      }
+
+      const { Cancion, Album, Era } = detalle;
+
+      // Validar si la canción tiene video oficial
+      const tieneVideo = Cancion.LinkYTVideo && Cancion.LinkYTVideo !== '' && Cancion.LinkYTVideo !== '-';
+      const embedUrl = tieneVideo ? `https://www.youtube.com/embed/${Cancion.LinkYTVideo}?autoplay=0&rel=0` : '';
+      
+      // Buscar la letra en el objeto original
+      const objetoCancion = DB.canciones.find(c => c.id_cancion === Cancion.IDCancion);
+      const letra = objetoCancion && objetoCancion.letra ? objetoCancion.letra : "SE DESCONOCE LETRA DE LA CANCIÓN";
+
+      // Actualizar el título de la ventana
+      document.getElementById('page-title').textContent = `${Cancion.NombreCancion} | MJ`;
+
+      document.getElementById('contenidoCancion').innerHTML = `
+        
+        <!-- Botón Volver -->
+        <div class="mb-6">
+          <a href="canciones.html" class="text-xs uppercase tracking-widest text-neutral-400 hover:text-white border border-neutral-800 bg-neutral-950 px-4 py-2 rounded transition-colors inline-block">
+            ← Volver al Catálogo
+          </a>
+        </div>
+
+        <!-- Encabezado de la Canción -->
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-6 md:p-8 mb-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
+          <div class="w-40 h-40 shrink-0 bg-neutral-900 rounded-lg overflow-hidden border border-neutral-800 shadow-2xl relative">
+            <img 
+              src="assets/img/${Album.IDAlbum.replace('-', '_')}.jpg" 
+              alt="Portada" 
+              class="absolute inset-0 w-full h-full object-cover" 
+              onerror="this.src='assets/img/default_album.jpg'"
+            >
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <span class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Canción</span>
+            <h1 class="text-3xl md:text-5xl font-black text-white tracking-wide mb-3">${escapeHtml(Cancion.NombreCancion)}</h1>
+            <p class="mb-2">
+              <span class="text-sm text-neutral-400">Álbum:</span>
+              <a href="tracklist.html?id=${Album.IDAlbum}" class="text-sm font-semibold text-yellow-500 hover:underline ml-1">
+                ${escapeHtml(Album.NombreAlbum)}
+              </a>
+            </p>
+            <p class="mb-4">
+              <span class="text-sm text-neutral-400">Era:</span>
+              <a href="era_detalle.html?id=${Era.IDEra}" class="text-sm font-semibold text-yellow-500 hover:underline ml-1">
+                ${escapeHtml(Era.NombreEra)}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Reproductor de Video (Si existe) -->
+        ${tieneVideo ? `
+          <div class="bg-neutral-950 border border-neutral-800 rounded-xl overflow-hidden mb-8">
+            <div class="w-full aspect-video bg-black relative">
+              <iframe 
+                class="absolute inset-0 w-full h-full" 
+                src="${embedUrl}" 
+                title="${escapeHtml(Cancion.NombreCancion)}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        ` : `
+          <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-8 mb-8 text-center">
+            <span class="text-4xl block mb-3">🎬</span>
+            <p class="text-neutral-400 font-medium">Esta canción no cuenta con un video musical oficial registrado.</p>
+          </div>
+        `}
+
+               <!-- Letra de la Canción -->
+        <div class="bg-neutral-950 border border-neutral-800 rounded-xl p-6 md:p-8 mb-8">
+          <h2 class="text-xl font-bold mb-6 flex items-center text-white">
+            <span class="w-8 h-[2px] bg-red-600 mr-4"></span>
+            Letra Oficial
+          </h2>
+          <!-- Aquí está la magia: whitespace-pre-wrap -->
+          <pre class="text-neutral-300 leading-relaxed text-base md:text-lg font-sans whitespace-pre-wrap">${escapeHtml(letra)}</pre>
+          </div>
+        </div>
+
+      `;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Cargando Álbum... | MJ</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png">
+</head>
+<body class="bg-black text-white font-sans antialiased min-h-screen">
+  
+  <!-- Navegación -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo musical</span></a>
+      </h1>
+      <ul class="flex space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="hover:text-yellow-600 transition-colors">Inicio</a></li>
+        <li><a href="eras.html" class="hover:text-yellow-600 transition-colors">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="text-white border-b border-red-600">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-yellow-600 transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-yellow-600 transition-colors">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Encabezado del Álbum -->
+  <header class="bg-neutral-950 border-b border-neutral-800 py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-center md:items-start">
+      <div 
+  class="w-30 h-30 rounded-lg shadow-md bg-cover bg-center"
+  style="background-image: url('${album.AlbumCover}')"
+>
+        <img id="album-cover" src="" alt="Portada" class="w-full h-full object-cover" onerror="if(this.src.includes('default')) { this.style.opacity='0'; } else { this.src='assets/img/default_album.jpg'; this.style.opacity='1'; }">
+      </div>
+      <div class="flex-grow text-center md:text-left">
+        <span id="album-tipo-fecha" class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2"></span>
+        <h1 id="album-titulo" class="text-4xl md:text-5xl font-black text-white uppercase tracking-wide mb-3"></h1>
+        <p class="mb-4">
+          <span class="text-sm text-neutral-400">Perteneciente a:</span>
+          <a id="album-era-link" href="#" class="text-sm font-semibold text-yellow-500 hover:underline ml-1"></a>
+        </p>
+        <p id="album-info" class="text-gray-300 text-base leading-relaxed max-w-3xl mb-6"></p>
+        
+        <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+          <a id="link-spotify" href="#" target="_blank" class="px-5 py-2.5 bg-[#1DB954] hover:bg-[#1ed760] text-black font-bold text-xs uppercase tracking-wider rounded transition-colors">
+            Escuchar en Spotify
+          </a>
+          <a id="link-youtube" href="#" target="_blank" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded transition-colors">
+            Lista en YouTube
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tracklist -->
+  <main class="max-w-6xl mx-auto py-12 px-6">
+    <h2 class="text-2xl font-bold mb-6 flex items-center">
+      <span class="w-8 h-[2px] bg-red-600 mr-4"></span>
+      Tracklist Oficial
+    </h2>
+
+    <div class="bg-neutral-900 rounded-xl overflow-hidden border border-neutral-800">
+      <table class="w-full text-left">
+        <thead class="bg-neutral-800 text-xs uppercase text-gray-400 tracking-wider">
+          <tr>
+            <th class="px-6 py-4 w-16">#</th>
+            <th class="px-6 py-4">Título de la Canción</th>
+            <th class="px-6 py-4 text-right">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-tracklist" class="divide-y divide-neutral-800"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="mt-20 border-t border-neutral-800 py-10 text-center text-neutral-600 text-sm">
+    <p>&copy; 2026 Michael Jackson Archivo - Para fines educativos</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const idAlbum = urlParams.get('id');
+
+      const detalle = obtenerAlbumDetalle(idAlbum);
+
+      if (!detalle) {
+        document.body.innerHTML = `
+          <div class="max-w-6xl mx-auto py-20 text-center">
+            <h1 class="text-3xl font-bold text-red-500">Error: Álbum no encontrado</h1>
+            <a href="albumes.html" class="mt-4 inline-block text-gray-400 hover:text-white underline">Volver a Álbumes</a>
+          </div>`;
+        return;
+      }
+
+      // Llenar cabecera del álbum
+      document.getElementById('page-title').textContent = `${detalle.Album.NombreAlbum} | MJ`;
+      document.getElementById('album-cover').src = detalle.Album.AlbumCover;
+      document.getElementById('album-titulo').textContent = detalle.Album.NombreAlbum;
+      document.getElementById('album-tipo-fecha').textContent = `${detalle.Album.TipoAlbum} • ${detalle.Album.FechaLanzamiento}`;
+      document.getElementById('album-info').textContent = detalle.Album.InfoAlbum;
+
+      const eraLink = document.getElementById('album-era-link');
+      eraLink.textContent = detalle.Era.NombreEra;
+      eraLink.href = `era_detalle.html?id=${detalle.Era.IDEra}`;
+
+            // Ocultar/Mostrar botón de Spotify
+      const btnSpotify = document.getElementById('link-spotify');
+      if (detalle.Album.LinkSpotify) {
+        btnSpotify.href = detalle.Album.LinkSpotify;
+        btnSpotify.style.display = 'inline-block';
+      } else {
+        btnSpotify.style.display = 'none';
+      }
+
+      // Ocultar/Mostrar botón de YouTube
+      const btnYouTube = document.getElementById('link-youtube');
+      if (detalle.Album.LinkYT) {
+        btnYouTube.href = detalle.Album.LinkYT;
+        btnYouTube.style.display = 'inline-block';
+      } else {
+        btnYouTube.style.display = 'none';
+      }
+
+      // Llenar tabla de canciones
+      const tbody = document.getElementById('tabla-tracklist');
+      if (detalle.Tracklist.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="3" class="px-6 py-6 text-center text-neutral-500">No hay canciones registradas para este álbum aún.</td>
+          </tr>`;
+      } else {
+        tbody.innerHTML = detalle.Tracklist.map(track => `
+          <tr class="hover:bg-neutral-800/50 transition-colors">
+            <td class="px-6 py-4 text-gray-500 font-mono font-bold">${track.NumeroTrack}</td>
+            <td class="px-6 py-4 font-medium text-white">${track.NombreCancion}</td>
+            <td class="px-6 py-4 text-right">
+              <a href="cancion_detalle.html?id=${track.IDCancion}" class="text-red-500 hover:text-red-400 text-xs font-bold uppercase tracking-wider">
+                Ver Canción →
+              </a>
+            </td>
+          </tr>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>

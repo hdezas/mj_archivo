@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Detalle de Era | MJ</title>
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png">
+  <style id="dynamic-style">
+    /* Estilo para el fondo dinámico basado en la Era */
+    .hero-era {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white font-sans antialiased min-h-screen">
+
+  <!-- Navegación principal -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo musical</span></a>
+      </h1>
+      <ul class="flex space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="hover:text-yellow-600 transition-colors">Inicio</a></li>
+        <li><a href="eras.html" class="text-white border-b border-red-600">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="hover:text-yellow-600 transition-colors">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-yellow-600 transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-yellow-600 transition-colors">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Encabezado Hero Dinámico de la Era -->
+  <header id="hero-header" class="hero-era h-[60vh] flex items-end pb-12 px-6">
+    <div class="max-w-6xl mx-auto w-full">
+      <span class="text-red-600 font-bold tracking-widest uppercase text-sm">Era de Grabación</span>
+      <h1 id="nombre-era" class="text-5xl md:text-6xl font-black italic uppercase mt-2"></h1>
+      <p id="info-era" class="max-w-2xl text-gray-300 mt-4 text-lg leading-relaxed"></p>
+    </div>
+  </header>
+
+  <!-- Sección de Canciones de la Era -->
+  <section class="max-w-6xl mx-auto py-12 px-6">
+    <h2 class="text-2xl font-bold mb-6 flex items-center">
+      <span class="w-8 h-[2px] bg-red-600 mr-4"></span>
+      Canciones pertenecientes a esta era
+    </h2>
+
+    <div class="bg-neutral-900 rounded-xl overflow-hidden border border-neutral-800">
+      <table class="w-full text-left">
+        <thead class="bg-neutral-800 text-xs uppercase text-gray-500 tracking-wider">
+          <tr>
+            <th class="px-6 py-4">ID</th>
+            <th class="px-6 py-4">Título</th>
+            <th class="px-6 py-4">Estatus</th>
+            <th class="px-6 py-4 text-right">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-canciones" class="divide-y divide-neutral-800"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="mt-20 border-t border-neutral-800 py-10 text-center text-neutral-600 text-sm">
+    <p>&copy; 2026 Michael Jackson Archivo - Para fines educativos</p>
+  </footer>
+
+  <!-- Scripts estáticos para renderizado en el cliente -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Obtener el ID de la Era desde la URL (ej. era_detalle.html?id=ERA_00)
+      const urlParams = new URLSearchParams(window.location.search);
+      const idEra = urlParams.get('id');
+
+      const detalle = obtenerEraDetalle(idEra);
+
+      if (!detalle) {
+        document.querySelector('main, section').innerHTML = `
+          <div class="max-w-6xl mx-auto py-20 px-6 text-center">
+            <h1 class="text-3xl font-bold text-red-500 mb-4">Error: Era no encontrada</h1>
+            <p class="text-gray-400 mb-6">La era solicitada no existe o no tiene datos disponibles.</p>
+            <a href="eras.html" class="text-sm font-bold uppercase tracking-widest text-white border-b border-red-600">Volver a Eras</a>
+          </div>`;
+        return;
+      }
+
+      // 2. Insertar información de la Era
+      document.getElementById('page-title').textContent = `${detalle.Era.NombreEra} | MJ`;
+      document.getElementById('nombre-era').textContent = detalle.Era.NombreEra;
+      document.getElementById('info-era').textContent = detalle.Era.InfoEra;
+
+      // 3. Generar el fondo dinámico para la clase .hero-era
+      const dynamicStyle = document.getElementById('dynamic-style');
+      dynamicStyle.innerHTML += `
+        .hero-era {
+          background-image: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.95)), url('/assets/img/${detalle.Era.IDEra}.jpg');
+        }
+      `;
+
+      // 4. Renderizar las canciones pertenecientes a esta Era
+      const tbody = document.getElementById('tabla-canciones');
+      if (!detalle.Canciones || detalle.Canciones.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" class="px-6 py-6 text-center text-neutral-500 font-medium">
+              No hay canciones registradas pertenecientes a esta era.
+            </td>
+          </tr>`;
+      } else {
+        tbody.innerHTML = detalle.Canciones.map(cancion => `
+          <tr class="hover:bg-neutral-800/50 transition-colors">
+            <td class="px-6 py-4 text-gray-500 font-mono">${cancion.IDCancion}</td>
+            <td class="px-6 py-4 font-medium">${cancion.NombreCancion}</td>
+            <td class="px-6 py-4">
+              <span class="px-2 py-1 bg-red-900/30 text-red-500 text-xs rounded border border-red-800/50">
+                ${cancion.IDStatus}
+              </span>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <a href="cancion_detalle.html?id=${cancion.IDCancion}" class="text-red-500 hover:text-red-400 text-sm font-bold uppercase">
+                Ver Letra
+              </a>
+            </td>
+          </tr>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+
+</html>

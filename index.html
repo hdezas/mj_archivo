@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Michael Jackson | Archivo Musical</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png">
+  <style>
+    .hero-bg {
+      background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.95)), url('assets/img/INV-MJ.png');
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body class="bg-black text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Navegación Principal -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo Musical</span></a>
+      </h1>
+      <ul class="flex flex-wrap justify-center space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="text-white border-b border-red-600 pb-1">Inicio</a></li>
+        <li><a href="eras.html" class="hover:text-yellow-500 transition-colors">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="hover:text-yellow-500 transition-colors">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-yellow-500 transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-yellow-500 transition-colors">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Principal -->
+  <header class="hero-bg min-h-[70vh] flex items-center justify-center text-center px-6 py-20 relative">
+    <div class="max-w-4xl mx-auto">
+      <span class="text-red-500 font-bold uppercase tracking-widest text-sm bg-red-950/50 px-4 py-1.5 border border-red-800/40 rounded-full inline-block mb-4">
+        Catálogo Histórico & Discografía
+      </span>
+      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight italic text-white mb-6">
+        El Rey del Pop
+      </h1>
+      <p class="text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto leading-relaxed mb-10">
+        Explora la trayectoria musical de Michael Jackson a través de sus eras de grabación, álbumes icónicos, repertorio de canciones y videoteca completa.
+      </p>
+
+      <!-- Botones de Acción / Redirección -->
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="eras.html" class="px-8 py-3.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-widest rounded shadow-lg transition-colors">
+          Explorar Eras
+        </a>
+        <a href="albumes.html" class="px-8 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white border border-neutral-700 font-bold text-xs uppercase tracking-widest rounded transition-colors">
+          Ver Discografía
+        </a>
+        <a href="videos_lista.html" class="px-8 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-red-400 border border-red-900/50 font-bold text-xs uppercase tracking-widest rounded transition-colors">
+          Ver Videos
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Panel de Métricas / Estadísticas -->
+  <section class="border-y border-neutral-800 bg-neutral-950 py-10 px-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="p-4">
+        <span id="stat-eras" class="block text-4xl font-black text-red-500">0</span>
+        <span class="text-xs uppercase tracking-widest text-neutral-400 font-semibold mt-1 block">Eras Musicales</span>
+      </div>
+      <div class="p-4">
+        <span id="stat-albumes" class="block text-4xl font-black text-white">0</span>
+        <span class="text-xs uppercase tracking-widest text-neutral-400 font-semibold mt-1 block">Álbumes de Estudio</span>
+      </div>
+      <div class="p-4">
+        <span id="stat-canciones" class="block text-4xl font-black text-white">0</span>
+        <span class="text-xs uppercase tracking-widest text-neutral-400 font-semibold mt-1 block">Canciones Registradas</span>
+      </div>
+      <div class="p-4">
+        <span id="stat-videos" class="block text-4xl font-black text-red-500">0</span>
+        <span class="text-xs uppercase tracking-widest text-neutral-400 font-semibold mt-1 block">Videoclips Oficiales</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Secciones Destacadas -->
+  <main class="max-w-7xl mx-auto px-6 py-16 w-full space-y-20">
+
+    <!-- Access Cards por Criterio -->
+    <section>
+      <div class="flex items-center justify-between mb-8 border-b border-neutral-800 pb-4">
+        <h2 class="text-2xl font-bold uppercase tracking-wide flex items-center gap-3">
+          <span class="w-3 h-3 bg-red-600 rounded-full"></span>
+          Navegación del Archivo
+        </h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card Eras -->
+        <a href="eras.html" class="bg-neutral-900 border border-neutral-800 p-8 rounded-xl hover:border-red-600 transition-all group flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Cronología</span>
+            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-red-500 transition-colors">Eras de Grabación</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed">
+              Desde su etapa inicial con The Jackson 5 y Motown hasta producciones póstumas e inéditas.
+            </p>
+          </div>
+          <span class="mt-6 text-xs font-bold uppercase tracking-widest text-neutral-500 group-hover:text-white transition-colors border-b border-red-600 w-max">
+            Ver todas las Eras →
+          </span>
+        </a>
+
+        <!-- Card Albumes -->
+        <a href="albumes.html" class="bg-neutral-900 border border-neutral-800 p-8 rounded-xl hover:border-red-600 transition-all group flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Discografía</span>
+            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-red-500 transition-colors">Álbumes Oficiales</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed">
+              Explora cada trabajo discográfico, fechas de lanzamiento y tracklists detallados.
+            </p>
+          </div>
+          <span class="mt-6 text-xs font-bold uppercase tracking-widest text-neutral-500 group-hover:text-white transition-colors border-b border-red-600 w-max">
+            Ver Discografía →
+          </span>
+        </a>
+
+        <!-- Card Canciones y Videoteca -->
+        <a href="canciones.html" class="bg-neutral-900 border border-neutral-800 p-8 rounded-xl hover:border-red-600 transition-all group flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-red-500 uppercase tracking-widest block mb-2">Buscador</span>
+            <h3 class="text-2xl font-bold mb-3 text-white group-hover:text-red-500 transition-colors">Catálogo de Canciones</h3>
+            <p class="text-sm text-neutral-400 leading-relaxed">
+              Busca por título, estatus o era. Encuentra maquetas, temas inéditos y grandes éxitos.
+            </p>
+          </div>
+          <span class="mt-6 text-xs font-bold uppercase tracking-widest text-neutral-500 group-hover:text-white transition-colors border-b border-red-600 w-max">
+            Buscar Canción →
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Álbumes Destacados -->
+    <section>
+      <div class="flex justify-between items-end mb-8 border-b border-neutral-800 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold uppercase tracking-wide">Álbumes Destacados</h2>
+          <p class="text-xs text-neutral-500 mt-1">Selección de títulos fundamentales en la historia del pop.</p>
+        </div>
+        <a href="albumes.html" class="text-xs font-bold text-red-500 uppercase tracking-widest hover:text-white transition-colors">
+          Ver todos los álbumes →
+        </a>
+      </div>
+
+      <div id="grid-albumes-destacados" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </section>
+
+    <!-- Videos Destacados -->
+    <section>
+      <div class="flex justify-between items-end mb-8 border-b border-neutral-800 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold uppercase tracking-wide">Videoclips Emblemáticos</h2>
+          <p class="text-xs text-neutral-500 mt-1">Cortometrajes musicales que revolucionaron la industria audiovisual.</p>
+        </div>
+        <a href="videos_lista.html" class="text-xs font-bold text-red-500 uppercase tracking-widest hover:text-white transition-colors">
+          Ir a Videoteca →
+        </a>
+      </div>
+
+      <div id="grid-videos-destacados" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </section>
+
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="border-t border-neutral-800 bg-neutral-950 py-12 px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+      <div>
+        <span class="text-lg font-bold text-white uppercase tracking-wider block">Michael Jackson Archive</span>
+        <p class="text-xs text-neutral-500 mt-1">Base de datos estática adaptada para GitHub Pages.</p>
+      </div>
+      <ul class="flex space-x-6 text-xs text-neutral-400">
+        <li><a href="eras.html" class="hover:text-white transition-colors">Eras</a></li>
+        <li><a href="albumes.html" class="hover:text-white transition-colors">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-white transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-white transition-colors">Videos</a></li>
+      </ul>
+      <p class="text-xs text-neutral-600">&copy; 2026 Michael Jackson Archivo - Uso Educativo</p>
+    </div>
+  </footer>
+
+  <!-- Scripts JS Client-Side -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Cargar estadísticas
+      const stats = obtenerEstadisticasIndex();
+      document.getElementById('stat-eras').textContent = stats.totalEras;
+      document.getElementById('stat-albumes').textContent = stats.totalAlbumes;
+      document.getElementById('stat-canciones').textContent = stats.totalCanciones;
+      document.getElementById('stat-videos').textContent = stats.totalVideos;
+
+      // 2. Renderizar álbumes destacados
+      const albumes = obtenerAlbumesDestacados(4);
+      const contenedorAlbumes = document.getElementById('grid-albumes-destacados');
+      contenedorAlbumes.innerHTML = albumes.map(album => `
+        <a href="tracklist.html?id=${album.IDAlbum}" class="bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden group hover:border-red-600 transition-all flex flex-col">
+          <div class="aspect-square bg-neutral-800 relative overflow-hidden">
+            <img src="${album.AlbumCover}" alt="${album.NombreAlbum}" onerror="this.src='assets/img/default_album.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </div>
+          <div class="p-4 flex flex-col flex-grow">
+            <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">${album.FechaLanz.split('-')[0]}</span>
+            <h3 class="text-lg font-bold text-white group-hover:text-red-500 transition-colors mt-0.5">${album.NombreAlbum}</h3>
+            <p class="text-xs text-neutral-400 mt-2 line-clamp-2">${album.InfoAlbum}</p>
+          </div>
+        </a>
+      `).join('');
+
+      // 3. Renderizar videos destacados
+      const videos = obtenerVideosDestacados(3);
+      const contenedorVideos = document.getElementById('grid-videos-destacados');
+      contenedorVideos.innerHTML = videos.map(video => `
+        <a href="video_detalle.html?id=${video.IDCancion}" class="bg-neutral-900 border border-neutral-800 rounded-lg p-4 group hover:border-red-600 transition-all flex justify-between items-center">
+          <div>
+            <h3 class="text-base font-bold text-white group-hover:text-red-500 transition-colors">${video.NombreCancion}</h3>
+            <span class="text-xs text-neutral-500 block mt-1">Era: ${video.NombreEra}</span>
+          </div>
+          <span class="text-xs font-bold uppercase tracking-widest text-red-500 bg-red-950/40 border border-red-900/50 px-3 py-1.5 rounded group-hover:bg-red-600 group-hover:text-white transition-all">
+            Ver Video
+          </span>
+        </a>
+      `).join('');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eras de Grabación | MJ</title>
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png"> 
+</head>
+<body class="bg-black text-white font-sans antialiased min-h-screen">
+  
+  <!-- Navegación principal -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo musical</span></a>
+      </h1>
+      <ul class="flex space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="hover:text-yellow-600 transition-colors">Inicio</a></li>
+        <li><a href="eras.html" class="text-white border-b border-red-600">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="hover:text-yellow-600 transition-colors">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-yellow-600 transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-yellow-600 transition-colors">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Contenido principal -->
+  <main class="max-w-6xl mx-auto py-12 px-6">
+    <h2 class="text-4xl font-bold mb-8 border-l-4 border-red-600 pl-4">Eras de grabaciones</h2>
+    
+    <!-- Cuadrícula dinámica de Eras -->
+    <div id="grid-eras" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+    
+    <p id="total-eras" class="mt-8 text-sm text-neutral-500"></p>
+  </main>
+
+  <footer class="mt-20 border-t border-neutral-800 py-10 text-center text-neutral-600 text-sm">
+    <p>&copy; 2026 Michael Jackson Archivo - Para fines educativos</p>
+  </footer>
+
+  <!-- Scripts estáticos para renderizado en el cliente -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const eras = obtenerEras();
+      const contenedor = document.getElementById('grid-eras');
+      const contador = document.getElementById('total-eras');
+
+      if (!eras || eras.length === 0) {
+        contenedor.innerHTML = '<p class="text-gray-400">No se encontraron eras de grabación registradas.</p>';
+        return;
+      }
+
+      contenedor.innerHTML = eras.map(era => `
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg overflow-hidden hover:border-red-600 transition-all group">
+          <div class="p-6 flex flex-col h-full">
+            <h3 class="text-xl font-bold mb-2 group-hover:text-red-500">${era.NombreEra}</h3>
+            <p class="text-gray-400 text-sm mb-6 line-clamp-3">${era.InfoEra}</p>
+            <a href="era_detalle.html?id=${era.IDEra}" class="mt-auto text-xs font-bold text-neutral-500 uppercase tracking-widest group-hover:text-white transition-colors border-b border-red-600 inline-block w-max">
+              Explorar Era
+            </a>
+          </div>
+        </div>
+      `).join('');
+
+      contador.textContent = `Total de eras encontradas: ${eras.length}`;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discografía Oficial | MJ</title>
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="assets/img/MJ_FI.png">
+</head>
+<body class="bg-black text-white font-sans antialiased min-h-screen">
+  
+  <!-- Navegación -->
+  <nav class="border-b border-neutral-800 bg-neutral-950 px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-widest text-red-600 uppercase">
+        <a href="index.html">Michael Jackson | <span class="text-white">Archivo musical</span></a>
+      </h1>
+      <ul class="flex space-x-6 text-sm font-medium text-gray-400">
+        <li><a href="index.html" class="hover:text-yellow-600 transition-colors">Inicio</a></li>
+        <li><a href="eras.html" class="hover:text-yellow-600 transition-colors">Eras de Grabación</a></li>
+        <li><a href="albumes.html" class="text-white border-b border-red-600">Álbumes</a></li>
+        <li><a href="canciones.html" class="hover:text-yellow-600 transition-colors">Canciones</a></li>
+        <li><a href="videos_lista.html" class="hover:text-yellow-600 transition-colors">Videos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main class="max-w-7xl mx-auto px-6 py-12">
+    <div class="mb-10 border-b border-neutral-800 pb-6">
+      <h2 class="text-4xl font-extrabold text-white mb-2">Discografía Oficial</h2>
+      <p class="text-gray-400 max-w-3xl text-base">
+        Explora la evolución discográfica del Rey del Pop. Álbumes organizados por cronología y enlazados a sus respectivas eras musicales.
+      </p>
+    </div>
+    
+    <!-- Grilla de Álbumes -->
+    <div id="grid-albumes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"></div>
+  </main>
+
+  <footer class="mt-20 border-t border-neutral-800 py-10 text-center text-neutral-600 text-sm">
+    <p>&copy; 2026 Michael Jackson Archivo - Para fines educativos</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="handlers.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const albumes = obtenerAlbumes();
+      const contenedor = document.getElementById('grid-albumes');
+
+      contenedor.innerHTML = albumes.map(album => `
+        <div class="bg-neutral-900 rounded-lg overflow-hidden border border-neutral-800 hover:border-red-600 transition-all group flex flex-col h-full">
+          <a href="tracklist.html?id=${album.IDAlbum}" class="block aspect-square bg-neutral-800 overflow-hidden relative">
+            <img src="${album.AlbumCover}" 
+                 alt="Portada de ${album.NombreAlbum}" 
+                 onerror="this.src='assets/img/default_album.jpg'"
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          </a>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="mb-3">
+              <span class="text-xs font-bold text-red-500 uppercase tracking-wider block">
+                ${album.TipoAlbum} • ${album.FechaLanz.split('-')[0]}
+              </span>
+              <h3 class="text-xl font-bold text-white mt-1 group-hover:text-red-500 transition-colors">
+                <a href="tracklist.html?id=${album.IDAlbum}">${album.NombreAlbum}</a>
+              </h3>
+              <a href="era_detalle.html?id=${album.IDEra}" class="text-xs text-neutral-400 hover:text-yellow-500 transition-colors mt-1 block">
+                Era: ${album.NombreEra}
+              </a>
+            </div>
+            <p class="text-sm text-gray-400 mb-6 flex-grow line-clamp-3">
+              ${album.InfoAlbum}
+            </p>
+            <div class="mt-auto pt-4 border-t border-neutral-800/60 flex justify-between items-center">
+              <a href="tracklist.html?id=${album.IDAlbum}" class="text-xs font-bold text-red-500 uppercase tracking-widest hover:text-white transition-colors">
+                Ver Tracklist →
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    });
+  </script>
+</body>
+</html>
